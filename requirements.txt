@@ -1,0 +1,11 @@
+# Project 4: AutoTune-DB - Hierarchical Hybrid Autonomous Agent for Physical Database Design
+# Dashboard & Visualization Cockpit
+streamlit>=1.30.0
+plotly>=5.15.0
+
+# Numerics & Computation
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Quality Assurance & Testing
+pytest>=7.4.0
