@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 4 Viva Voce Defense Guide — AutoTune-DB Autonomous Agent</title>
+    <!-- KaTeX for high-performance LaTeX math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+            onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+    <style>
+        :root {
+            --bg-primary: #0b0f19;
+            --bg-secondary: #111827;
+            --bg-card: #1f2937;
+            --bg-card-hover: #283548;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --accent: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.25);
+            --accent-blue: #3b82f6;
+            --accent-rose: #f43f5e;
+            --accent-amber: #f59e0b;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-highlight: rgba(16, 185, 129, 0.4);
+            --code-bg: #030712;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }
+
+        header {
+            background: linear-gradient(180deg, rgba(17, 24, 39, 0.95) 0%, rgba(11, 15, 25, 0.9) 100%);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            padding: 20px 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .title-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #6ee7b7;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 0%, #a7f3d0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            margin-top: 4px;
+        }
+
+        .stats-strip {
+            display: flex;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin: 28px 0;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            max-width: 480px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .action-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 9px 14px;
+            border-radius: var(--radius-md);
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            color: var(--text-primary);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .q-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            margin-bottom: 24px;
+            overflow: hidden;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .q-card:hover {
+            border-color: var(--border-highlight);
+        }
+
+        .q-header {
+            padding: 20px 24px;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .q-num-badge {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            white-space: nowrap;
+        }
+
+        .q-topic {
+            font-size: 0.78rem;
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 4px;
+        }
+
+        .q-question {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .q-body {
+            padding: 24px;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-item {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            user-select: none;
+        }
+
+        .option-item:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .option-marker {
+            min-width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.78rem;
+            font-weight: 700;
+            margin-top: 1px;
+            transition: all 0.2s ease;
+        }
+
+        .option-text {
+            font-size: 0.92rem;
+            color: #e2e8f0;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .option-item.selected-correct {
+            background: rgba(16, 185, 129, 0.15) !important;
+            border-color: var(--accent) !important;
+        }
+        .option-item.selected-correct .option-marker {
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        .option-item.selected-wrong {
+            background: rgba(244, 63, 94, 0.15) !important;
+            border-color: var(--accent-rose) !important;
+        }
+        .option-item.selected-wrong .option-marker {
+            background: var(--accent-rose);
+            color: #ffffff;
+        }
+
+        .reveal-toggle-btn {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.2) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #a7f3d0;
+            padding: 10px 18px;
+            border-radius: var(--radius-md);
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .reveal-toggle-btn:hover {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.3) 100%);
+            border-color: var(--accent);
+        }
+
+        .defense-dossier {
+            display: none;
+            margin-top: 20px;
+            padding: 22px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .defense-dossier.open { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dossier-heading {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-verified {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .defense-text {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            margin-bottom: 16px;
+            line-height: 1.65;
+        }
+
+        .defense-box {
+            background: rgba(15, 23, 42, 0.8);
+            border-left: 3px solid var(--accent);
+            padding: 14px 18px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin-bottom: 16px;
+        }
+
+        .defense-box.warning {
+            border-left-color: var(--accent-amber);
+            background: rgba(40, 25, 10, 0.4);
+        }
+
+        .defense-box-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 6px;
+            letter-spacing: 0.05em;
+        }
+
+        .defense-box.warning .defense-box-title { color: var(--accent-amber); }
+
+        .code-snippet {
+            background: var(--code-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            font-family: "JetBrains Mono", Consolas, monospace;
+            font-size: 0.82rem;
+            color: #a7f3d0;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        footer {
+            margin-top: 60px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 28px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div>
+                    <div class="title-badge">UMC301 Project 4 • Agentic Systems Pillar</div>
+                    <h1>AutoTune-DB Autonomous Physical Design Agent Viva Voce</h1>
+                    <div class="subtitle">Hierarchical Hybrid Architecture • MCTS UCT Combinatorial Solver • AST Predicate Miner • Live ReAct</div>
+                </div>
+                <div class="stats-strip">
+                    <div class="stat-item">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">Viva MCQs</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Whiteboard Proofs</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="controls-bar">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search questions (e.g. Knapsack, MCTS, UCT, Mackert-Lohman, ReAct, Tabu)..." oninput="filterSearch()">
+            <div style="display: flex; gap: 10px;">
+                <button class="action-btn" onclick="toggleAll(true)">Expand All Proofs</button>
+                <button class="action-btn" onclick="toggleAll(false)">Collapse All</button>
+                <button class="action-btn" onclick="window.print()">Print / PDF</button>
+            </div>
+        </div>
+
+        <!-- Question 1 -->
+        <div class="q-card" data-keywords="knapsack submodularity non-additive index selection problem isp dynamic programming">
+            <div class="q-header">
+                <div class="q-num-badge">Question 1</div>
+                <div>
+                    <div class="q-topic">Computational Complexity & Submodular Knapsack Limits</div>
+                    <div class="q-question">Why does classical 0-1 Knapsack Dynamic Programming ($\mathcal{O}(n \cdot B)$) completely break down when applied to general physical database index selection?</div>
+                </div>
+            </div>
+            <div class="q-body">
+                <div class="options-list">
+                    <div class="option-item" onclick="checkOption(this, true)">
+                        <div class="option-marker">A</div>
+                        <div class="option-text">Knapsack requires independent, additive values $V(S) = \sum v_i$; index benefits are submodular and non-additive because existing indexes cause plan subsumption, join method flips, and interaction effects across queries.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">B</div>
+                        <div class="option-text">B-Tree storage footprints on disk cannot be estimated deterministically due to unpredictable page fill-factor variations and text compression.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">C</div>
+                        <div class="option-text">The storage budget constraint $B$ operates in continuous floating-point memory space rather than discrete integer capacities.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">D</div>
+                        <div class="option-text">Relational cost-based optimizers strictly restrict each query execution plan to at most one index per database.</div>
+                    </div>
+                </div>
+
+                <button class="reveal-toggle-btn" onclick="toggleDossier(this)">
+                    <span>Show Examiner Solution & Whiteboard Derivation</span>
+                </button>
+
+                <div class="defense-dossier">
+                    <div class="dossier-heading">
+                        <span>Examiner Solution & First-Principles Defense</span>
+                        <span class="badge-verified">Verified</span>
+                    </div>
+                    <div class="defense-text">
+                        <strong>1. Reduction from 0-1 Knapsack:</strong> In our formal thesis, we prove that the Index Selection Problem (ISP) is NP-hard by polynomial-time reduction from 0-1 Knapsack (constructing independent single-table queries where each index has fixed size $w_i$ and fixed benefit $v_i$).
+                    </div>
+                    <div class="defense-box warning">
+                        <div class="defense-box-title">Why Knapsack Dynamic Programming Fails in Real Databases</div>
+                        The Bellman dynamic programming equation for Knapsack:
+                        $$V(i, w) = \max\Big(V(i-1, w), \; V(i-1, w - w_i) + v_i\Big)$$
+                        fundamentally assumes that the value of item $i$ ($v_i$) is <strong>constant, independent, and strictly additive</strong> regardless of which other items coexist in the knapsack.
+                        <br><br>
+                        In real database workloads, index benefits are <strong>non-additive and submodular</strong>:
+                        <ul>
+                            <li><strong>Index Subsumption:</strong> If composite index $I_{(A, B)}$ is materialized, the marginal cost reduction of single-column index $I_{(A)}$ drops to zero.</li>
+                            <li><strong>Join Path Shifts:</strong> Adding an index on Table 1 can cause the CBO to switch from a Hash Join to an Index Nested Loops Join, completely altering the utility and access paths of indexes on Table 2!</li>
+                        </ul>
+                        Because subproblem optimality depends on the specific combination of coexisting indexes, subproblems cannot be memoized by remaining capacity alone without storing the entire exponential state $2^{\mathcal{C}}$.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="q-card" data-keywords="mcts canonical ordering permutation symmetry uct visit dilution hoeffding">
+            <div class="q-header">
+                <div class="q-num-badge">Question 2</div>
+                <div>
+                    <div class="q-topic">MCTS State-Space Pruning & Canonical Ordering</div>
+                    <div class="q-question">In `src/mcts/mcts_solver.py`, why does child node expansion enforce canonical subset ordering via `self.candidate_pool[action_idx + 1 :]` rather than allowing any unselected candidate?</div>
+                </div>
+            </div>
+            <div class="q-body">
+                <div class="options-list">
+                    <div class="option-item" onclick="checkOption(this, true)">
+                        <div class="option-marker">A</div>
+                        <div class="option-text">It eliminates $k!$ permutation symmetries for identical index subsets, preventing the search tree from duplicating identical configurations and diluting UCT visit counts across redundant branches.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">B</div>
+                        <div class="option-text">It forces index creation DDL statements to execute in strict alphabetical schema order to prevent database catalog transaction deadlocks.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">C</div>
+                        <div class="option-text">It ensures that candidate index storage sizes strictly decrease down any tree branch, satisfying the monotonicity invariant.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">D</div>
+                        <div class="option-text">It isolates candidate indexes across different tables to prevent race conditions during concurrent multi-threaded cost evaluations.</div>
+                    </div>
+                </div>
+
+                <button class="reveal-toggle-btn" onclick="toggleDossier(this)">
+                    <span>Show Examiner Solution & Whiteboard Derivation</span>
+                </button>
+
+                <div class="defense-dossier">
+                    <div class="dossier-heading">
+                        <span>Examiner Solution & First-Principles Defense</span>
+                        <span class="badge-verified">Verified</span>
+                    </div>
+                    <div class="defense-box">
+                        <div class="defense-box-title">Whiteboard Derivation: The $k!$ Permutation Pathology</div>
+                        A physical database index configuration is an <strong>unordered set</strong>:
+                        $$\{I_A, I_B, I_C\} \equiv \{I_C, I_A, I_B\}$$
+                        If an MCTS implementation naively allows any unselected candidate (<code>cand not in state</code>) to be added at each tree expansion step:
+                        <ul>
+                            <li>A configuration of $k$ indexes can be reached through <strong>$k!$ distinct paths</strong> in the search tree.</li>
+                            <li>For a 4-index design, there are $4! = 24$ identical leaf states scattered across different subtrees.</li>
+                            <li>Each duplicate leaf maintains separate visit counts $N(s)$ and sample reward means $Q(s, a)$.</li>
+                        </ul>
+                        The UCT tree policy:
+                        $$\text{UCT}(s, a) = Q(s, a) + c \cdot \sqrt{\frac{\ln N(s)}{N(s, a)}}$$
+                        relies on concentrated visit counts $N(s, a)$ to exploit the most promising paths. When statistics are fragmented across $k!$ duplicate branches, visit counts are heavily diluted, and the MCTS solver wastes its 500 rollout iterations repeatedly re-simulating the same physical subset.
+                        <br><br>
+                        <strong>The Canonical Ordering Fix:</strong> Enforcing <code>self.candidate_pool[action_idx + 1 :]</code> guarantees that every subset $\{I_1, I_2, \dots, I_k\}$ has <strong>exactly one unique canonical path</strong> in the tree. This collapses the search space from permutations $\sum_{k} \frac{N!}{(N-k)!}$ down to combinations $\sum_{k} \binom{N}{k} = 2^N$.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="q-card" data-keywords="mackert-lohman unclustered index crossover random io heap seek sequential scan">
+            <div class="q-header">
+                <div class="q-num-badge">Question 3</div>
+                <div>
+                    <div class="q-topic">Physical Cost Modeling & Selectivity Crossover ($\sigma^*$)</div>
+                    <div class="q-question">Why did materializing an index on `l_shipdate` for TPC-H Q1 cause a 40% performance regression in SQLite, and how does the Mackert-Lohman cost model derive the crossover threshold $\sigma^*$?</div>
+                </div>
+            </div>
+            <div class="q-body">
+                <div class="options-list">
+                    <div class="option-item" onclick="checkOption(this, true)">
+                        <div class="option-marker">A</div>
+                        <div class="option-text">High predicate match ($\sigma = 0.98$) causes unclustered index scans to dereference table heap rows via non-sequential pointers, reading identical pages repeatedly across random disk seeks ($c_{\text{random\_io}}=1.5$); sequential scans read contiguous pages once with kernel prefetching ($c_{\text{page\_io}}=1.0$).</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">B</div>
+                        <div class="option-text">SQLite disables database buffer caching whenever an unclustered index matches more than 20% of rows, forcing raw disk reads on every operator.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">C</div>
+                        <div class="option-text">Unclustered B-Tree index leaf nodes must be dynamically locked and rebalanced by the database engine during SELECT query plan execution.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">D</div>
+                        <div class="option-text">Sequential scans completely bypass CPU tuple evaluation cost ($c_{\text{cpu\_tuple}} = 0$) by pushing down filter predicates into disk controller SIMD instructions.</div>
+                    </div>
+                </div>
+
+                <button class="reveal-toggle-btn" onclick="toggleDossier(this)">
+                    <span>Show Examiner Solution & Whiteboard Derivation</span>
+                </button>
+
+                <div class="defense-dossier">
+                    <div class="dossier-heading">
+                        <span>Examiner Solution & First-Principles Defense</span>
+                        <span class="badge-verified">Verified</span>
+                    </div>
+                    <div class="defense-box">
+                        <div class="defense-box-title">Whiteboard Derivation: Mackert-Lohman Selectivity Crossover ($\sigma^*$)</div>
+                        In physical database design, an index scan is <strong>not</strong> always faster than a sequential table scan:
+                        <br><br>
+                        <strong>1. Sequential Table Scan Cost:</strong>
+                        $$\text{Cost}_{\text{seq}} = N_{\text{pages}} \cdot c_{\text{page\_io}} + N_{\text{rows}} \cdot c_{\text{cpu\_tuple}}$$
+                        <strong>2. Unclustered Index Scan Cost:</strong>
+                        $$\text{Cost}_{\text{index}}(\sigma) = \left(h_{\text{tree}} + \sigma N_{\text{leaf\_pages}}\right) c_{\text{page\_io}} + \min(N_{\text{pages}}, \sigma N_{\text{rows}}) c_{\text{random\_io}} + \sigma N_{\text{rows}} c_{\text{cpu\_tuple}}$$
+                        Where $c_{\text{page\_io}} = 1.0$ (sequential block read) and $c_{\text{random\_io}} = 1.5$ (unclustered random page seek).
+                        <br><br>
+                        <strong>3. Equating Costs at Crossover $\sigma^*$:</strong> For non-covering indexes where random heap lookups dominate:
+                        $$\sigma^* \cdot N_{\text{rows}} \cdot c_{\text{random\_io}} \approx N_{\text{pages}} \cdot c_{\text{page\_io}}$$
+                        $$\sigma^* \approx \frac{N_{\text{pages}}}{N_{\text{rows}}} \cdot \frac{c_{\text{page\_io}}}{c_{\text{random\_io}}} = \frac{1}{\text{TuplesPerPage}} \cdot \frac{1}{1.5} \approx \mathbf{1.3\% - 15\%}$$
+                        <strong>The Q1 Regression:</strong> The predicate <code>WHERE l_shipdate &lt;= '1998-09-02'</code> matches <strong>98% of the relation</strong> ($\sigma = 0.98 \gg \sigma^*$). Materializing an index on <code>l_shipdate</code> caused SQLite's naive CBO to execute 22,000 random heap page dereferences, degrading latency from $27\text{ ms}$ to $38\text{ ms}$ (a 40% slowdown).
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="q-card" data-keywords="react causal plan attribution tabu list leftmost prefix equality first explain">
+            <div class="q-header">
+                <div class="q-num-badge">Question 4</div>
+                <div>
+                    <div class="q-topic">ReAct Causal Plan Attribution & Tabu Reflection</div>
+                    <div class="q-question">Why must the ReAct verification controller inspect `EXPLAIN` query plans to verify `bool(used_active_idxs)` before flagging an optimizer regression and updating the Tabu list?</div>
+                </div>
+            </div>
+            <div class="q-body">
+                <div class="options-list">
+                    <div class="option-item" onclick="checkOption(this, true)">
+                        <div class="option-marker">A</div>
+                        <div class="option-text">Plan inspection isolates genuine CBO pathologies from OS/CPU preemption jitter so innocent indexes are not blacklisted in the Tabu list without causal link.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">B</div>
+                        <div class="option-text">SQLite raises an unrecoverable transaction lock fault if an index is dropped without prior EXPLAIN execution.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">C</div>
+                        <div class="option-text">Checking the plan ensures ACID write-ahead log serializability across multiple threads.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">D</div>
+                        <div class="option-text">Plan checking enables automatic SIMD vectorization in the query planner.</div>
+                    </div>
+                </div>
+
+                <button class="reveal-toggle-btn" onclick="toggleDossier(this)">
+                    <span>Show Examiner Solution & Whiteboard Derivation</span>
+                </button>
+
+                <div class="defense-dossier">
+                    <div class="dossier-heading">
+                        <span>Examiner Solution & First-Principles Defense</span>
+                        <span class="badge-verified">Verified</span>
+                    </div>
+                    <div class="defense-text">
+                        <strong>1. Causal Attribution in Stage 3 ReAct:</strong> Benchmarking on modern operating systems experiences thread preemption, thermal throttling, and timer noise. If a query runs 20% slower due to an OS background task, but its <code>EXPLAIN</code> plan shows it executed via full table scan without touching any new index, the slowdown was OS jitter!
+                        <div class="code-snippet">is_regressed = (
+    bool(used_active_idxs) and
+    (t_ms > (1.0 + self.regression_threshold) * b_time) and
+    (t_ms - b_time > 2.0)
+)</div>
+                        Checking <code>bool(used_active_idxs)</code> guarantees that an index is only blacklisted in the <strong>Tabu list</strong> if the CBO actually chose and traversed that specific physical index.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="q-card" data-keywords="leftmost prefix primary key autoindex sqlite rowid composite covering">
+            <div class="q-header">
+                <div class="q-num-badge">Question 5</div>
+                <div>
+                    <div class="q-topic">Relational Schema Invariants & Primary Key Pruning</div>
+                    <div class="q-question">Why are single-column primary keys (e.g. `o_orderkey`, `c_custkey`) stripped from candidate pool $\mathcal{C}$ in `candidate_miner.py`, while composite keys containing primary keys are preserved?</div>
+                </div>
+            </div>
+            <div class="q-body">
+                <div class="options-list">
+                    <div class="option-item" onclick="checkOption(this, true)">
+                        <div class="option-marker">A</div>
+                        <div class="option-text">Database engines automatically maintain unique B-Trees for primary keys upon creation; adding secondary single-column PK indexes is 100% redundant and burns budget B, while composite indexes enable covering scans.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">B</div>
+                        <div class="option-text">SQLite's DDL compiler raises a fatal syntax exception if a developer creates an index containing any column declared as PRIMARY KEY.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">C</div>
+                        <div class="option-text">Primary key columns have near-zero selectivity ($\sigma = 0$), which causes a divide-by-zero floating-point exception in the Mackert-Lohman index cost formula.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">D</div>
+                        <div class="option-text">Hypothetical primary key indexes cannot be evaluated in memory because primary keys require persistent disk transaction journaling in SQLite's dbstat catalog.</div>
+                    </div>
+                </div>
+
+                <button class="reveal-toggle-btn" onclick="toggleDossier(this)">
+                    <span>Show Examiner Solution & Whiteboard Derivation</span>
+                </button>
+
+                <div class="defense-dossier">
+                    <div class="dossier-heading">
+                        <span>Examiner Solution & First-Principles Defense</span>
+                        <span class="badge-verified">Verified</span>
+                    </div>
+                    <div class="defense-text">
+                        <strong>Relational Catalog Invariants:</strong>
+                        When a table is created with a <code>PRIMARY KEY</code>, relational databases (including SQLite, PostgreSQL, MySQL) automatically build an internal unique B-Tree index (e.g. <code>sqlite_autoindex_orders_1</code>). In SQLite, an <code>INTEGER PRIMARY KEY</code> is an alias for the rowid itself, forming the clustered index of the table.
+                    </div>
+                    <div class="defense-box">
+                        <div class="defense-box-title">Why Single PK is Pruned but Composite PK is Preserved</div>
+                        <ul>
+                            <li><strong>Single-Column Secondary PK Index:</strong> Creating <code>CREATE INDEX idx_o_orderkey ON orders(o_orderkey)</code> builds a 100% redundant secondary structure. It duplicates existing pointers, burns physical storage budget $B$, and adds write-amplification overhead during DML operations without offering any novel access path.</li>
+                            <li><strong>Composite Secondary Index Containing PK:</strong>
+                                Creating <code>CREATE INDEX idx_orders_cust_order ON orders(o_custkey, o_orderkey)</code> is <strong>highly valuable</strong>. It provides an efficient index on foreign key <code>o_custkey</code>, while appending <code>o_orderkey</code> enables <em>Index-Only Covering Scans</em> for join queries, allowing the engine to satisfy queries directly from the B-Tree leaf pages without performing random heap lookups.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p><strong>UMC301: Applied Data Science & AI</strong> • Computational and Data Sciences (CDS), IISc Bengaluru</p>
+            <p style="margin-top: 6px;">Spec-Driven Development (SDD) • Project 4 Defense Architecture Guide</p>
+        </div>
+    </footer>
+
+    <script>
+        function checkOption(el, isCorrect) {
+            const parentList = el.closest('.options-list');
+            const items = parentList.querySelectorAll('.option-item');
+            items.forEach(item => item.classList.remove('selected-correct', 'selected-wrong'));
+
+            if (isCorrect) {
+                el.classList.add('selected-correct');
+            } else {
+                el.classList.add('selected-wrong');
+                items.forEach(item => {
+                    const onclickAttr = item.getAttribute('onclick');
+                    if (onclickAttr && onclickAttr.includes('true')) item.classList.add('selected-correct');
+                });
+            }
+
+            const card = el.closest('.q-card');
+            const dossier = card.querySelector('.defense-dossier');
+            const btn = card.querySelector('.reveal-toggle-btn span');
+            if (dossier && !dossier.classList.contains('open')) {
+                dossier.classList.add('open');
+                if (btn) btn.textContent = 'Hide Examiner Solution & Whiteboard Derivation';
+                if (window.renderMathInElement) {
+                    renderMathInElement(dossier, {
+                        delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]
+                    });
+                }
+            }
+        }
+
+        function toggleDossier(btn) {
+            const card = btn.closest('.q-card');
+            const dossier = card.querySelector('.defense-dossier');
+            const span = btn.querySelector('span');
+
+            if (dossier.classList.contains('open')) {
+                dossier.classList.remove('open');
+                span.textContent = 'Show Examiner Solution & Whiteboard Derivation';
+            } else {
+                dossier.classList.add('open');
+                span.textContent = 'Hide Examiner Solution & Whiteboard Derivation';
+                if (window.renderMathInElement) {
+                    renderMathInElement(dossier, {
+                        delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]
+                    });
+                }
+            }
+        }
+
+        function filterSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.q-card');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
+                card.style.display = (!query || text.includes(query) || keywords.includes(query)) ? 'block' : 'none';
+            });
+        }
+
+        function toggleAll(expand) {
+            document.querySelectorAll('.defense-dossier').forEach(d => {
+                if (expand) {
+                    d.classList.add('open');
+                    if (window.renderMathInElement) {
+                        renderMathInElement(d, {
+                            delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]
+                        });
+                    }
+                } else {
+                    d.classList.remove('open');
+                }
+            });
+            document.querySelectorAll('.reveal-toggle-btn span').forEach(b => {
+                b.textContent = expand ? 'Hide Examiner Solution & Whiteboard Derivation' : 'Show Examiner Solution & Whiteboard Derivation';
+            });
+        }
+    </script>
+</body>
+</html>
