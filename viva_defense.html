@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 4 Viva Voce Defense Guide — AutoTune-DB Autonomous Agent</title>
+    <title>Project 4 Viva Voce Defense Master Guide — AutoTune-DB Autonomous Agent</title>
     <!-- KaTeX for high-performance LaTeX math rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
@@ -52,7 +52,7 @@
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1140px;
             margin: 0 auto;
             padding: 0 24px;
         }
@@ -121,6 +121,79 @@
             font-size: 0.7rem;
             color: var(--text-muted);
             text-transform: uppercase;
+        }
+
+        /* Theory Module Styling */
+        .theory-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin: 32px 0 40px 0;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .theory-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 14px;
+            margin-bottom: 20px;
+        }
+
+        .theory-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theory-pill {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .theory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-top: 16px;
+        }
+
+        .theory-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 18px;
+        }
+
+        .theory-card h3 {
+            font-size: 1.0rem;
+            color: var(--accent);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theory-card p, .theory-card ul {
+            font-size: 0.88rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .theory-card ul {
+            padding-left: 20px;
+            margin-top: 6px;
         }
 
         .controls-bar {
@@ -412,7 +485,7 @@
                 </div>
                 <div class="stats-strip">
                     <div class="stat-item">
-                        <div class="stat-value">5</div>
+                        <div class="stat-value">10</div>
                         <div class="stat-label">Viva MCQs</div>
                     </div>
                     <div class="stat-item">
@@ -425,6 +498,73 @@
     </header>
 
     <main class="container">
+
+        <!-- Theoretical Foundations Section -->
+        <section class="theory-section">
+            <div class="theory-header">
+                <div class="theory-title">
+                    <span>Core Theoretical Foundations & Mathematical Formulations</span>
+                </div>
+                <span class="theory-pill">Chapter 13 Autonomous Agents & Search</span>
+            </div>
+            
+            <div class="theory-grid">
+                <div class="theory-card">
+                    <h3>1. NP-Hardness of Index Selection (ISP)</h3>
+                    <p>Formulated as subset selection over candidate pool $\mathcal{C}$ under budget $B$:
+                    $$\mathcal{I}^* = \arg\max_{\mathcal{I} \subseteq \mathcal{C}, \text{Size}(\mathcal{I}) \le B} \sum_{i=1}^m w_i \Delta \text{Cost}(Q_i \mid \mathcal{I})$$
+                    Proven NP-hard via polynomial reduction from 0-1 Knapsack.
+                    </p>
+                </div>
+
+                <div class="theory-card">
+                    <h3>2. The Non-Additive / Submodular Trap</h3>
+                    <p>Classical 0-1 Knapsack assumes additive item values $V(S) = \sum v_i$. In databases, index benefits are <strong>submodular</strong>:
+                    <ul>
+                        <li>Composite indexes subsume single indexes ($I_{(A, B)}$ zeros the marginal value of $I_{(A)}$).</li>
+                        <li>Indexes flip CBO join paths from Hash Join to Index Nested Loops, dynamically altering access paths.</li>
+                    </ul>
+                    Dynamic Programming $\mathcal{O}(n \cdot B)$ completely fails.
+                    </p>
+                </div>
+
+                <div class="theory-card">
+                    <h3>3. The Winning Hybrid 3-Stage Agent</h3>
+                    <p>Resolves the duality between Pure LLM (hallucinates byte arithmetic, fails at $2^{|\mathcal{C}|}$) and Pure MCTS ($>3,500$ blind action explosion):
+                    <ol>
+                        <li><strong>Stage 1 (AST Miner):</strong> Prunes space to $30 \le |\mathcal{C}| \le 50$ high-value candidates.</li>
+                        <li><strong>Stage 2 (MCTS Solver):</strong> Explores $2^{|\mathcal{C}|}$ under budget $B$ over a zero-byte cost engine ($< 0.4\text{ ms}$).</li>
+                        <li><strong>Stage 3 (Live ReAct Verifier):</strong> Materializes indexes physically and heals regressions via a Tabu list.</li>
+                    </ol>
+                    </p>
+                </div>
+
+                <div class="theory-card">
+                    <h3>4. UCT Tree Policy via Hoeffding Bound</h3>
+                    <p>Balances exploitation and exploration:
+                    $$\text{UCT}(s, a) = Q(s, a) + c \cdot \sqrt{\frac{\ln N(s)}{N(s, a)}}$$
+                    Setting tail risk $\delta = N(s)^{-4}$ in Hoeffding's inequality yields the theoretical constant $c = \sqrt{2} \approx 1.414$.
+                    </p>
+                </div>
+
+                <div class="theory-card">
+                    <h3>5. Mackert-Lohman Selectivity Crossover</h3>
+                    <p>Unclustered B-Tree scans perform random heap dereferences ($c_{\text{random}} = 1.5$):
+                    $$\sigma^* \approx \frac{1}{\text{TuplesPerPage}} \cdot \frac{c_{\text{page}}}{c_{\text{random}}} \approx 1.3\% - 15\%$$
+                    When $\sigma > \sigma^*$ (e.g. TPC-H Q1 where $\sigma=0.98$), unclustered indexes thrash the buffer cache, causing a **40% slowdown**.
+                    </p>
+                </div>
+
+                <div class="theory-card">
+                    <h3>6. Leftmost Prefix Invariant</h3>
+                    <p>Relational algebra dictates that composite indexes must be ordered **Equality-First**:
+                    $$(C_{\text{equality}}, \; C_{\text{range}})$$
+                    Equality isolates an exact sub-tree leaf partition, enabling contiguous binary search on range columns. Range-first destroys seek pruning.
+                    </p>
+                </div>
+            </div>
+        </section>
+
         <div class="controls-bar">
             <input type="text" id="searchInput" class="search-input" placeholder="Search questions (e.g. Knapsack, MCTS, UCT, Mackert-Lohman, ReAct, Tabu)..." oninput="filterSearch()">
             <div style="display: flex; gap: 10px;">
@@ -551,9 +691,66 @@
         </div>
 
         <!-- Question 3 -->
-        <div class="q-card" data-keywords="mackert-lohman unclustered index crossover random io heap seek sequential scan">
+        <div class="q-card" data-keywords="uct hoeffding inequality exploration constant sqrt 2 derivation bandit">
             <div class="q-header">
                 <div class="q-num-badge">Question 3</div>
+                <div>
+                    <div class="q-topic">MCTS Foundations: Hoeffding's Inequality & $c = \sqrt{2}$</div>
+                    <div class="q-question">Provide the mathematical derivation showing why the optimal exploration constant in the UCT tree policy is $c = \sqrt{2} \approx 1.414$.</div>
+                </div>
+            </div>
+            <div class="q-body">
+                <div class="options-list">
+                    <div class="option-item" onclick="checkOption(this, true)">
+                        <div class="option-marker">A</div>
+                        <div class="option-text">Applying Hoeffding's Inequality $\mathbb{P}(\mu > \bar{X} + \epsilon) \le \exp(-2n\epsilon^2)$ with polynomial tail probability decay $\delta = N(s)^{-4}$ yields $-2n\epsilon^2 = -4\ln N(s) \implies \epsilon = \sqrt{2}\sqrt{\frac{\ln N(s)}{n}}$.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">B</div>
+                        <div class="option-text">$\sqrt{2}$ represents the diagonal length of a unit square in SQLite's 2D R-Tree spatial indexing engine.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">C</div>
+                        <div class="option-text">It is derived from the Nyquist-Shannon sampling frequency limit across continuous SQL query workloads.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">D</div>
+                        <div class="option-text">The value is empirically chosen by grid search because SQLite locks tables after exactly 1.414 seconds.</div>
+                    </div>
+                </div>
+
+                <button class="reveal-toggle-btn" onclick="toggleDossier(this)">
+                    <span>Show Examiner Solution & Whiteboard Derivation</span>
+                </button>
+
+                <div class="defense-dossier">
+                    <div class="dossier-heading">
+                        <span>Examiner Solution & First-Principles Defense</span>
+                        <span class="badge-verified">Verified</span>
+                    </div>
+                    <div class="defense-box">
+                        <div class="defense-box-title">Whiteboard Proof: Derivation of UCT Constant $c = \sqrt{2}$</div>
+                        Let $X_1, \dots, X_n \in [0, 1]$ be independent reward samples from candidate index action $a$ with true mean $\mu_a$ and empirical sample mean $\bar{X}_{a, n} = \frac{1}{n}\sum_{i=1}^n X_i$.
+                        <br><br>
+                        <strong>1. Hoeffding's Inequality (Auer et al., 2002):</strong>
+                        $$\mathbb{P}\left(\mu_a > \bar{X}_{a, n} + \epsilon\right) \le \exp\left(-2 n \epsilon^2\right)$$
+                        <strong>2. Bounding Exploration over Parent Visits $N(s)$:</strong>
+                        To ensure that sub-optimal actions are explored with vanishingly small probability as the total parent visits $N(s)$ grow, set the error probability tail to $\delta = N(s)^{-4}$:
+                        $$\exp\left(-2 n \epsilon^2\right) = N(s)^{-4}$$
+                        <strong>3. Solving for the Confidence Radius $\epsilon$:</strong>
+                        $$-2 n \epsilon^2 = -4 \ln N(s) \implies \epsilon^2 = \frac{4 \ln N(s)}{2 n} = \frac{2 \ln N(s)}{n}$$
+                        $$\epsilon = \sqrt{2} \cdot \sqrt{\frac{\ln N(s)}{n}}$$
+                        Therefore, with high probability ($1 - N(s)^{-4}$):
+                        $$\mu_a \le \bar{X}_{a, n} + \sqrt{2} \cdot \sqrt{\frac{\ln N(s)}{N(s, a)}} \quad \blacksquare$$
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="q-card" data-keywords="mackert-lohman unclustered index crossover random io heap seek sequential scan">
+            <div class="q-header">
+                <div class="q-num-badge">Question 4</div>
                 <div>
                     <div class="q-topic">Physical Cost Modeling & Selectivity Crossover ($\sigma^*$)</div>
                     <div class="q-question">Why did materializing an index on `l_shipdate` for TPC-H Q1 cause a 40% performance regression in SQLite, and how does the Mackert-Lohman cost model derive the crossover threshold $\sigma^*$?</div>
@@ -607,10 +804,10 @@
             </div>
         </div>
 
-        <!-- Question 4 -->
+        <!-- Question 5 -->
         <div class="q-card" data-keywords="react causal plan attribution tabu list leftmost prefix equality first explain">
             <div class="q-header">
-                <div class="q-num-badge">Question 4</div>
+                <div class="q-num-badge">Question 5</div>
                 <div>
                     <div class="q-topic">ReAct Causal Plan Attribution & Tabu Reflection</div>
                     <div class="q-question">Why must the ReAct verification controller inspect `EXPLAIN` query plans to verify `bool(used_active_idxs)` before flagging an optimizer regression and updating the Tabu list?</div>
@@ -658,10 +855,10 @@
             </div>
         </div>
 
-        <!-- Question 5 -->
+        <!-- Question 6 -->
         <div class="q-card" data-keywords="leftmost prefix primary key autoindex sqlite rowid composite covering">
             <div class="q-header">
-                <div class="q-num-badge">Question 5</div>
+                <div class="q-num-badge">Question 6</div>
                 <div>
                     <div class="q-topic">Relational Schema Invariants & Primary Key Pruning</div>
                     <div class="q-question">Why are single-column primary keys (e.g. `o_orderkey`, `c_custkey`) stripped from candidate pool $\mathcal{C}$ in `candidate_miner.py`, while composite keys containing primary keys are preserved?</div>
@@ -713,12 +910,230 @@
             </div>
         </div>
 
+        <!-- Question 7 -->
+        <div class="q-card" data-keywords="leftmost prefix rule btree lexicography composite range equality seek">
+            <div class="q-header">
+                <div class="q-num-badge">Question 7</div>
+                <div>
+                    <div class="q-topic">Relational Algebra: Leftmost Prefix & Composite Key Ordering</div>
+                    <div class="q-question">In `_order_columns_equality_first()`, why must equality and equi-join columns strictly precede range columns in a composite B-Tree index?</div>
+                </div>
+            </div>
+            <div class="q-body">
+                <div class="options-list">
+                    <div class="option-item" onclick="checkOption(this, true)">
+                        <div class="option-marker">A</div>
+                        <div class="option-text">An equality predicate isolates an exact contiguous partition in B-Tree leaves, allowing subsequent range columns to be point-seeked; placing range first fans out across multiple leaf pages, destroying seek pruning for subsequent columns.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">B</div>
+                        <div class="option-text">Composite indexes with range columns leading cause immediate disk corruption in SQLite's B-Tree cell format.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">C</div>
+                        <div class="option-text">SQL standards mandate that all equality columns be evaluated before range operators in the AST.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">D</div>
+                        <div class="option-text">Placing range first causes the MCTS reward function to evaluate to negative infinity.</div>
+                    </div>
+                </div>
+
+                <button class="reveal-toggle-btn" onclick="toggleDossier(this)">
+                    <span>Show Examiner Solution & Whiteboard Derivation</span>
+                </button>
+
+                <div class="defense-dossier">
+                    <div class="dossier-heading">
+                        <span>Examiner Solution & First-Principles Defense</span>
+                        <span class="badge-verified">Verified</span>
+                    </div>
+                    <div class="defense-box">
+                        <div class="defense-box-title">B-Tree Multi-Column Seek Pruning Mechanics</div>
+                        In a composite B-Tree with keys $(C_1, C_2)$ ordered lexicographically:
+                        <br><br>
+                        <strong>Case 1: Equality-First $(C_{\text{eq}}, C_{\text{range}})$:</strong>
+                        The query predicate $C_{\text{eq}} = v$ acts as an exact coordinate seek down the B-Tree directory nodes, landing directly on a single contiguous partition in the leaf pages. Within that leaf partition, $C_{\text{range}}$ is already sorted, so the storage engine can execute a binary search to find the lower bound and perform a contiguous range scan. Both columns actively prune index blocks.
+                        <br><br>
+                        <strong>Case 2: Range-First $(C_{\text{range}}, C_{\text{eq}})$:</strong>
+                        The inequality comparison $C_{\text{range}} \ge v$ spans across potentially hundreds of leaf pages. Because $C_{\text{eq}}$ is only sorted <em>locally within each distinct value of $C_{\text{range}}$</em>, the B-Tree cannot do a point seek on $C_{\text{eq}}$. The engine is forced to scan every leaf tuple across that entire range span to filter $C_{\text{eq}}$ sequentially!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="q-card" data-keywords="hypocostengine zero-byte plan evaluation sub-millisecond physical materialization">
+            <div class="q-header">
+                <div class="q-num-badge">Question 8</div>
+                <div>
+                    <div class="q-topic">Search Efficiency: Zero-Byte Hypothetical Cost Modeling</div>
+                    <div class="q-question">Why does Stage 2 MCTS evaluate configurations against `HypoCostEngine` rather than physically creating and dropping indexes on the live database during tree search?</div>
+                </div>
+            </div>
+            <div class="q-body">
+                <div class="options-list">
+                    <div class="option-item" onclick="checkOption(this, true)">
+                        <div class="option-marker">A</div>
+                        <div class="option-text">Physical index materialization requires full table scans and disk writes taking 100–500 ms per candidate; HypoCostEngine models page I/O and tree fanout in memory in &lt; 0.4 ms without disk writes, enabling 500 MCTS iterations in under 20 ms.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">B</div>
+                        <div class="option-text">SQLite strictly limits databases to a lifetime maximum of 50 index creations before locking the database file permanently.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">C</div>
+                        <div class="option-text">Physical index creation disables the write-ahead log (WAL) checkpoint thread.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">D</div>
+                        <div class="option-text">HypoCostEngine was designed to bypass SQLite's SQL query syntax parser.</div>
+                    </div>
+                </div>
+
+                <button class="reveal-toggle-btn" onclick="toggleDossier(this)">
+                    <span>Show Examiner Solution & Whiteboard Derivation</span>
+                </button>
+
+                <div class="defense-dossier">
+                    <div class="dossier-heading">
+                        <span>Examiner Solution & First-Principles Defense</span>
+                        <span class="badge-verified">Verified</span>
+                    </div>
+                    <div class="defense-text">
+                        <strong>The Physical Latency Bottleneck:</strong>
+                        Building a secondary B-Tree on a 100,000-row table requires:
+                        1. A sequential table scan to extract the key tuples.
+                        2. An external in-memory/disk merge sort ($O(N \log N)$).
+                        3. Writing hundreds of 4KB leaf and interior pages to disk.
+                        This requires <strong>100 ms to 500 ms per candidate index</strong>.
+                        <br><br>
+                        If MCTS executed 500 iterations with physical index creation:
+                        $$500 \times 200\text{ ms} = 100\text{ seconds (Over 1.5 minutes per optimization!)}$$
+                        <strong>The HypoCostEngine Resolution:</strong> Simulates B-Tree height $h = \lceil \log_{100}(N) \rceil$, leaf page count, and heap lookup costs using catalog statistics entirely in RAM:
+                        $$\text{Latency per evaluation} < \mathbf{0.4\text{ ms}}$$
+                        500 MCTS iterations complete in <strong>18.5 milliseconds</strong>! Stage 3 then physically materializes only the single winning configuration for live verification.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="q-card" data-keywords="budget constraint penalty lambda untried actions pruning storage hard limit">
+            <div class="q-header">
+                <div class="q-num-badge">Question 9</div>
+                <div>
+                    <div class="q-topic">Constraint Satisfaction: Dual-Layer Storage Budget Invariant</div>
+                    <div class="q-question">How does AutoTune-DB mathematically guarantee that the selected index configuration never violates the physical storage budget $B$?</div>
+                </div>
+            </div>
+            <div class="q-body">
+                <div class="options-list">
+                    <div class="option-item" onclick="checkOption(this, true)">
+                        <div class="option-marker">A</div>
+                        <div class="option-text">Via a dual-layer invariant: tree expansion prunes untried actions whose size exceeds remaining capacity ($new\_size \le B$), while the reward function applies a harsh penalty $-\lambda \cdot \frac{\max(0, Size - B)}{B}$ with $\lambda = 100.0$.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">B</div>
+                        <div class="option-text">SQLite automatically stops creating indexes when disk space falls below budget $B$.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">C</div>
+                        <div class="option-text">By restricting all candidate indexes to single columns with at most 10 KB size.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">D</div>
+                        <div class="option-text">The budget $B$ is only checked after all queries are executed on the physical database.</div>
+                    </div>
+                </div>
+
+                <button class="reveal-toggle-btn" onclick="toggleDossier(this)">
+                    <span>Show Examiner Solution & Whiteboard Derivation</span>
+                </button>
+
+                <div class="defense-dossier">
+                    <div class="dossier-heading">
+                        <span>Examiner Solution & First-Principles Defense</span>
+                        <span class="badge-verified">Verified</span>
+                    </div>
+                    <div class="defense-box">
+                        <div class="defense-box-title">Dual-Layer Invariant Formulation</div>
+                        In [`src/mcts/mcts_solver.py`](file:///c:/Users/aksha/DSAI_Projects/Project4_AutoTune_DB/src/mcts/mcts_solver.py):
+                        <br><br>
+                        <strong>Layer 1: Tree Expansion Pruning (Structural Constraint):</strong>
+                        When populating child untried actions, any candidate whose addition would cause the configuration footprint to exceed $B$ is pruned:
+                        <div class="code-snippet">child_untried = [
+    cand for cand in self.candidate_pool[action_idx + 1 :]
+    if new_size + self._index_sizes.get(cand, 0) &lt;= self.storage_budget_bytes
+][:8]</div>
+                        <strong>Layer 2: Budget-Penalized Reward Function (Rollout Boundary Defense):</strong>
+                        $$\mathcal{R}(s) = \frac{\text{Cost}_{\text{base}} - \text{Cost}(s)}{\text{Cost}_{\text{base}}} - \lambda \cdot \frac{\max(0, \text{Size}(s) - B)}{\max(1, B)}$$
+                        With $\lambda = 100.0$. Even during greedy random rollout simulations, any configuration that breaches budget $B$ receives a severe negative reward, driving backpropagated UCT values down and ensuring 100% budget compliance across all benchmarks.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="q-card" data-keywords="branching factor cap 8 search depth convergence 500 iterations">
+            <div class="q-header">
+                <div class="q-num-badge">Question 10</div>
+                <div>
+                    <div class="q-topic">Search Convergence: Branching Factor Capping</div>
+                    <div class="q-question">In `src/mcts/mcts_solver.py` (line 145), child untried actions are capped to the top 8 candidates (`[:8]`). What algorithmic trade-off does this cap enforce?</div>
+                </div>
+            </div>
+            <div class="q-body">
+                <div class="options-list">
+                    <div class="option-item" onclick="checkOption(this, true)">
+                        <div class="option-marker">A</div>
+                        <div class="option-text">It bounds tree width, allowing MCTS to traverse deeper multi-index combinations and concentrate rollout evaluations within a bounded budget of 500 iterations instead of shallowly fanning out across 40 wide branches.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">B</div>
+                        <div class="option-text">Python's recursion limit throws a `RecursionError` if a node has more than 8 child pointers.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">C</div>
+                        <div class="option-text">It limits the maximum number of indexes on the physical database to exactly 8.</div>
+                    </div>
+                    <div class="option-item" onclick="checkOption(this, false)">
+                        <div class="option-marker">D</div>
+                        <div class="option-text">It is required by the UCT policy to ensure the exploration constant $c$ remains real-valued.</div>
+                    </div>
+                </div>
+
+                <button class="reveal-toggle-btn" onclick="toggleDossier(this)">
+                    <span>Show Examiner Solution & Whiteboard Derivation</span>
+                </button>
+
+                <div class="defense-dossier">
+                    <div class="dossier-heading">
+                        <span>Examiner Solution & First-Principles Defense</span>
+                        <span class="badge-verified">Verified</span>
+                    </div>
+                    <div class="defense-text">
+                        <strong>The Search Width vs. Search Depth Trade-Off:</strong>
+                        With a candidate pool of $|\mathcal{C}| = 40$:
+                        If a node expands with an unconstrained branching factor of 40:
+                        - In 500 iterations, the root node would spend 40 iterations just visiting its immediate single-index children once!
+                        - The tree would remain extremely shallow (depth 1 or 2), never discovering synergistic 3-way or 4-way index combinations across tables.
+                        <br><br>
+                        <strong>Why Cap at 8?</strong>
+                        Because candidates in `self.candidate_pool` are already pre-ranked by relevance score from Stage 1's AST miner:
+                        - Restricting branching factor to the top 8 relevant candidates keeps tree branching narrow ($b \le 8$).
+                        - In 500 iterations, MCTS can explore deep paths (depth 4 to 6), evaluating complex multi-table configurations like $\{I_{\text{orders}}, I_{\text{customer}}, I_{\text{lineitem}}\}$ while retaining high statistical confidence in UCT selection.
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <footer>
         <div class="container">
             <p><strong>UMC301: Applied Data Science & AI</strong> • Computational and Data Sciences (CDS), IISc Bengaluru</p>
-            <p style="margin-top: 6px;">Spec-Driven Development (SDD) • Project 4 Defense Architecture Guide</p>
+            <p style="margin-top: 6px;">Spec-Driven Development (SDD) • Project 4 Master Viva Voce Defense Guide</p>
         </div>
     </footer>
 
